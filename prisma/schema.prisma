@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model League {
+  id    Int        @id @default(autoincrement())
+  name  LeagueName
+
+  teams Team[]     @relation("leaguesTeams")
+  @@map("leagues")
+}
+
+model Team {
+  id       Int      @id @default(autoincrement())
+  name     String   @db.VarChar(30)
+  initial  String   @db.VarChar(2)
+  leagueId Int      @db.Int
+
+  league   League   @relation(name: "leaguesTeams", fields: [leagueId], references: [id], onDelete: Cascade, map: "teams_league_ibfk_1")
+  players  Player[] @relation("playerTeam")
+  @@map("teams")
+}
+
+model Position {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(20)
+  Player Player[] @relation("playerPosition")
+
+  @@map("positions")
+}
+
+model Player {
+  id         Int      @id @default(autoincrement())
+  year       Int      @db.Int
+  name       String   @db.VarChar(20)
+  teamId     Int      @db.Int
+  positionId Int      @db.Int
+
+  team       Team     @relation(name: "playerTeam", fields: [teamId], references: [id], onDelete: Cascade, map: "players_teams_ibfk_1")
+  position   Position @relation(name: "playerPosition", fields: [positionId], references: [id], onDelete: Cascade, map: "players_position_ibfk_1")
+  @@map("players")
+}
+
+enum LeagueName {
+  pacific
+  central
+}
