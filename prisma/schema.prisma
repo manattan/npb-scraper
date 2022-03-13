@@ -38,11 +38,12 @@ model Position {
 }
 
 model Player {
-  id         Int      @id @default(autoincrement())
-  year       Int      @db.Int
-  name       String   @db.VarChar(20)
-  teamId     Int      @db.Int
-  positionId Int      @db.Int
+  id            Int      @id @default(autoincrement())
+  year          Int      @db.Int
+  name          String   @db.VarChar(20)
+  uniformNumber Int      @db.Int
+  teamId        Int      @db.Int
+  positionId    Int      @db.Int
 
   team       Team     @relation(name: "playerTeam", fields: [teamId], references: [id], onDelete: Cascade, map: "players_teams_ibfk_1")
   position   Position @relation(name: "playerPosition", fields: [positionId], references: [id], onDelete: Cascade, map: "players_position_ibfk_1")

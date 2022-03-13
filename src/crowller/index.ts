@@ -1,9 +1,6 @@
 import fetch from "node-fetch";
 import { decodeAsText } from "../lib/decode";
 import { JSParser } from "../lib/jsdom";
-import { convertIntoObject, ConvertResult } from "./convert";
-
-export type teamInitial = "F" | "H" | "G";
 
 export class Crowller {
   constructor(private url: string) {}

@@ -1,5 +1,3 @@
-import { rmdirSync } from "fs";
-
 export type ConvertResult = {
   year: number;
   name: string | null;
